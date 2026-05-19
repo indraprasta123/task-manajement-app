@@ -1,3 +1,3 @@
 <?php
 
-echo "Hello Task Management App";
+require __DIR__ . '/routes/task.php';

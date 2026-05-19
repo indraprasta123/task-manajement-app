@@ -1,0 +1,48 @@
+<?php
+
+session_start();
+
+//auth guard
+if (!isset($_SESSION['user_id']) || !isset($_COOKIE['auth_token'])) {
+    header('Location: /views/auth/login.php');
+    exit;
+}
+
+require __DIR__ . '/../config/database.php';
+require __DIR__ . '/../models/TaskModel.php';
+
+// logout
+if (isset($_POST['logout'])) {
+    $_SESSION = [];
+
+    if (isset($_COOKIE['auth_token'])) {
+        setcookie('auth_token', '', time() - 3600, '/');
+    }
+
+    session_destroy();
+    header('Location: /views/auth/login.php');
+    exit;
+}
+
+$taskModel = new TaskModel($conn);
+$userId = (int)$_SESSION['user_id'];
+
+// toggle task status
+if (isset($_POST['action']) && $_POST['action'] === 'toggle_status') {
+    $taskId = (int)($_POST['task_id'] ?? 0);
+    $currentStatus = strtolower((string)($_POST['current_status'] ?? ''));
+    $nextStatus = ($currentStatus === 'completed' || $currentStatus === 'done')
+        ? 'pending'
+        : 'completed';
+
+    if ($taskId > 0) {
+        $taskModel->updateStatus($taskId, $userId, $nextStatus);
+    }
+
+    header('Location: /index.php');
+    exit;
+}
+
+$tasks = $taskModel->getAllTasks($userId);
+
+require __DIR__ . '/../views/task/dashboard.php';
