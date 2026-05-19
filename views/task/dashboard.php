@@ -2,6 +2,8 @@
 
 $userName = $_SESSION['user_name'] ?? 'User';
 $tasks = $tasks ?? [];
+$pageTitle = $pageTitle ?? 'Tasks';
+$taskView = $taskView ?? 'dashboard';
 
 function formatTaskDate($value)
 {
@@ -51,11 +53,14 @@ function getStatusClass($status, $dueDate)
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/css/global.css" />
     <link rel="stylesheet" href="/css/dashboard.css" />
+    <link rel="stylesheet" href="/css/sidebar.css" />
     <title>Dashboard</title>
 </head>
 
 <body>
     <div class="dashboard-shell">
+        <?php require __DIR__ . '/../layouts/sidebar.php'; ?>
+
         <main class="main-content">
             <div class="topbar">
                 <div class="user-info">
@@ -71,8 +76,7 @@ function getStatusClass($status, $dueDate)
             </div>
 
             <div class="toolbar">
-                <h3 class="section-title">Tasks</h3>
-                <a class="primary-btn" href="/routes/task.php?view=add">Add Task</a>
+                <h3 class="section-title"><?php echo htmlspecialchars($pageTitle); ?></h3>
             </div>
 
             <div class="card">

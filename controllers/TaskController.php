@@ -26,6 +26,7 @@ if (isset($_POST['logout'])) {
 
 $taskModel = new TaskModel($conn);
 $userId = (int)$_SESSION['user_id'];
+$taskView = $_GET['view'] ?? 'dashboard';
 
 //add task
 
@@ -66,6 +67,17 @@ if (isset($_POST['action']) && $_POST['action'] === 'toggle_status') {
     exit;
 }
 
-$tasks = $taskModel->getAllTasks($userId);
+
+$pageTitle = 'Dashboard';
+
+if ($taskView === 'my') {
+    $tasks = $taskModel->getIncompleteTasks($userId);
+    $pageTitle = 'My Tasks';
+} elseif ($taskView === 'completed') {
+    $tasks = $taskModel->getCompletedTasks($userId);
+    $pageTitle = 'Completed Tasks';
+} else {
+    $tasks = $taskModel->getAllTasks($userId);
+}
 
 require __DIR__ . '/../views/task/dashboard.php';
