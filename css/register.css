@@ -55,6 +55,19 @@
   box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
 }
 
+.register-account {
+  margin: 20px 0px;
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+}
+
+.register-account a {
+  color: #2563eb;
+  font-weight: bold;
+  text-decoration: none;
+}
+
 .button-items {
   width: 100%;
 }
@@ -66,7 +79,6 @@
   border-radius: 12px;
   background: #2563eb;
   color: #ffffff;
-  font-size: 16px;
   font-weight: 600;
   cursor: pointer;
   transition: 0.3s ease;

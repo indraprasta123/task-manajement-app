@@ -1,0 +1,64 @@
+<?php
+
+session_start();
+
+if (isset($_SESSION['user_id'])) {
+
+    header("Location: /index.php");
+    exit;
+}
+
+?>
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="../../css/global.css" />
+    <link rel="stylesheet" href="../../css/login.css" />
+
+    <title>Login</title>
+</head>
+
+<body>
+    <div class="login">
+        <div class="login-container">
+            <div class="login-box">
+                <div class="title-login-page">
+                    <h1>Login</h1>
+                </div>
+                <div class="form-login-page">
+                    <form action="/routes/auth.php" method="POST">
+                        <div class="input-items">
+                            <input type="hidden" name="action" value="login" />
+                        </div>
+                        <div class="input-items">
+                            <input type="email" name="email" placeholder="Email" required />
+                        </div>
+                        <div class="input-items">
+                            <input
+                                type="password"
+                                name="password"
+                                placeholder="Password"
+                                required />
+                        </div>
+                        <div class="button-items">
+                            <button type="submit">Login</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="login-account">
+                    <p>
+                        Don’t have an account?
+                        <a href="/views/auth/register.php"> Register </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,3 +1,15 @@
+<?php
+
+session_start();
+
+if (isset($_SESSION['user_id'])) {
+
+    header("Location: /index.php");
+    exit;
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -18,7 +30,7 @@
                 </div>
                 <div class="form-register-page">
                     <form
-                        action="../../controllers/AuthController.php"
+                        action="/routes/auth.php"
                         method="POST">
                         <div class="input-items">
                             <input
@@ -53,6 +65,10 @@
                             </button>
                         </div>
                     </form>
+                    <div class="register-account">
+                        <p>Do you have an account?</p>
+                        <a href="/views/auth/login.php">Login</a>
+                    </div>
                 </div>
             </div>
         </div>
