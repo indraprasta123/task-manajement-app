@@ -119,4 +119,29 @@ class TaskModel
             ':user_id' => $userId
         ]);
     }
+
+    public function createTask(
+        int $userId,
+        string $title,
+        string $description,
+        string $priority,
+        ?string $dueDate,
+        string $status
+    ): bool {
+        $query = "
+            INSERT INTO tasks (user_id, title, description, priority, due_date, status)
+            VALUES (:user_id, :title, :description, :priority, :due_date, :status)
+        ";
+
+        $stmt = $this->conn->prepare($query);
+
+        return $stmt->execute([
+            ':user_id' => $userId,
+            ':title' => $title,
+            ':description' => $description,
+            ':priority' => $priority,
+            ':due_date' => $dueDate,
+            ':status' => $status
+        ]);
+    }
 }

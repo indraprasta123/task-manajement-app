@@ -9,7 +9,7 @@ if (!isset($_SESSION['user_id']) || !isset($_COOKIE['auth_token'])) {
 }
 
 require __DIR__ . '/../config/database.php';
-require __DIR__ . '/../models/TaskModel.php';
+require_once __DIR__ . '/../models/TaskModel.php';
 
 // logout
 if (isset($_POST['logout'])) {
@@ -26,6 +26,29 @@ if (isset($_POST['logout'])) {
 
 $taskModel = new TaskModel($conn);
 $userId = (int)$_SESSION['user_id'];
+
+//add task
+
+if (isset($_POST['action']) && $_POST['action'] === 'create_task') {
+    $title = trim($_POST['title'] ?? '');
+    $description = trim($_POST['description'] ?? '');
+    $priority = trim($_POST['priority'] ?? '');
+    $dueDate = trim($_POST['due_date'] ?? '');
+
+    if ($title !== '' && $priority !== '') {
+        $taskModel->createTask(
+            $userId,
+            $title,
+            $description,
+            $priority,
+            $dueDate !== '' ? $dueDate : null,
+            'pending'
+        );
+    }
+
+    header('Location: /index.php');
+    exit;
+}
 
 // toggle task status
 if (isset($_POST['action']) && $_POST['action'] === 'toggle_status') {

@@ -70,8 +70,12 @@ function getStatusClass($status, $dueDate)
                 </form>
             </div>
 
-            <div class="card">
+            <div class="toolbar">
                 <h3 class="section-title">Tasks</h3>
+                <a class="primary-btn" href="/routes/task.php?view=add">Add Task</a>
+            </div>
+
+            <div class="card">
                 <table>
                     <thead>
                         <tr>
