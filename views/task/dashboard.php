@@ -4,6 +4,7 @@ $userName = $_SESSION['user_name'] ?? 'User';
 $tasks = $tasks ?? [];
 $pageTitle = $pageTitle ?? 'Tasks';
 $taskView = $taskView ?? 'dashboard';
+$todayDueCount = $todayDueCount ?? 0;
 
 function formatTaskDate($value)
 {
@@ -79,6 +80,12 @@ function getStatusClass($status, $dueDate)
             <div class="toolbar">
                 <h3 class="section-title"><?php echo htmlspecialchars($pageTitle); ?></h3>
             </div>
+
+            <?php if ($todayDueCount > 0) { ?>
+                <div class="alert">
+                    <strong>Reminder:</strong> There is an <?php echo $todayDueCount; ?> assignment due today..
+                </div>
+            <?php } ?>
 
             <div class="card">
                 <table>

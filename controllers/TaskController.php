@@ -28,6 +28,13 @@ $taskModel = new TaskModel($conn);
 $userId = (int)$_SESSION['user_id'];
 $taskView = $_GET['view'] ?? 'dashboard';
 
+//alert due task
+$todayTasks = $taskModel->getTodayTasks($userId);
+$todayDueCount = count(array_filter($todayTasks, function ($task) {
+    $status = strtolower((string)($task['status'] ?? ''));
+    return $status !== 'completed' && $status !== 'done';
+}));
+
 //add task
 
 if (isset($_POST['action']) && $_POST['action'] === 'create_task') {
