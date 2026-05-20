@@ -70,21 +70,43 @@ if (isset($_POST['action']) && $_POST['action'] === 'toggle_status') {
         $taskModel->updateStatus($taskId, $userId, $nextStatus);
     }
 
-    header('Location: /index.php');
+    header('Location: /index.php?view=' . urlencode($taskView));
     exit;
 }
 
+// delete task
+if (isset($_POST['action']) && $_POST['action'] === 'delete_task') {
+    $taskId = (int)($_POST['task_id'] ?? 0);
+
+    if ($taskId > 0) {
+        $taskModel->deleteTask($taskId, $userId);
+    }
+
+    header('Location: /index.php?view=' . urlencode($taskView));
+    exit;
+}
+
+// Pagination config
+$itemsPerPage = 6;
+$currentPage = max(1, (int)($_GET['page'] ?? 1));
+$offset = ($currentPage - 1) * $itemsPerPage;
 
 $pageTitle = 'Dashboard';
+$totalTasks = 0;
 
 if ($taskView === 'my') {
-    $tasks = $taskModel->getIncompleteTasks($userId);
+    $totalTasks = $taskModel->getTotalIncompleteTasks($userId);
+    $tasks = $taskModel->getIncompleteTasks($userId, $itemsPerPage, $offset);
     $pageTitle = 'My Tasks';
 } elseif ($taskView === 'completed') {
-    $tasks = $taskModel->getCompletedTasks($userId);
+    $totalTasks = $taskModel->getTotalCompletedTasks($userId);
+    $tasks = $taskModel->getCompletedTasks($userId, $itemsPerPage, $offset);
     $pageTitle = 'Completed Tasks';
 } else {
-    $tasks = $taskModel->getAllTasks($userId);
+    $totalTasks = $taskModel->getTotalTasks($userId);
+    $tasks = $taskModel->getAllTasks($userId, $itemsPerPage, $offset);
 }
+
+$totalPages = ceil($totalTasks / $itemsPerPage);
 
 require __DIR__ . '/../views/task/dashboard.php';

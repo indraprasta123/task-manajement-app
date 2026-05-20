@@ -40,19 +40,38 @@ class TaskModel
         ];
     }
 
-    public function getAllTasks(int $userId): array
+    public function getAllTasks(int $userId, int $limit = 10, int $offset = 0): array
     {
         $query = "
             SELECT id, title, description, priority, due_date, status, created_at
             FROM tasks
             WHERE user_id = :user_id
             ORDER BY due_date ASC NULLS LAST, created_at DESC
+            LIMIT :limit OFFSET :offset
+        ";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindValue(':user_id', $userId, PDO::PARAM_INT);
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getTotalTasks(int $userId): int
+    {
+        $query = "
+            SELECT COUNT(*) as total
+            FROM tasks
+            WHERE user_id = :user_id
         ";
 
         $stmt = $this->conn->prepare($query);
         $stmt->execute([':user_id' => $userId]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return (int)($result['total'] ?? 0);
     }
 
     public function getTodayTasks(int $userId): array
@@ -71,7 +90,7 @@ class TaskModel
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getIncompleteTasks(int $userId): array
+    public function getIncompleteTasks(int $userId, int $limit = 10, int $offset = 0): array
     {
         $query = "
             SELECT id, title, description, priority, due_date, status, created_at
@@ -79,15 +98,35 @@ class TaskModel
             WHERE user_id = :user_id
                 AND status NOT IN ('completed', 'done')
             ORDER BY due_date ASC NULLS LAST, created_at DESC
+            LIMIT :limit OFFSET :offset
         ";
 
         $stmt = $this->conn->prepare($query);
-        $stmt->execute([':user_id' => $userId]);
+        $stmt->bindValue(':user_id', $userId, PDO::PARAM_INT);
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+        $stmt->execute();
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getCompletedTasks(int $userId): array
+    public function getTotalIncompleteTasks(int $userId): int
+    {
+        $query = "
+            SELECT COUNT(*) as total
+            FROM tasks
+            WHERE user_id = :user_id
+                AND status NOT IN ('completed', 'done')
+        ";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute([':user_id' => $userId]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return (int)($result['total'] ?? 0);
+    }
+
+    public function getCompletedTasks(int $userId, int $limit = 10, int $offset = 0): array
     {
         $query = "
             SELECT id, title, description, priority, due_date, status, created_at
@@ -95,12 +134,32 @@ class TaskModel
             WHERE user_id = :user_id
                 AND status IN ('completed', 'done')
             ORDER BY due_date ASC NULLS LAST, created_at DESC
+            LIMIT :limit OFFSET :offset
+        ";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindValue(':user_id', $userId, PDO::PARAM_INT);
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getTotalCompletedTasks(int $userId): int
+    {
+        $query = "
+            SELECT COUNT(*) as total
+            FROM tasks
+            WHERE user_id = :user_id
+                AND status IN ('completed', 'done')
         ";
 
         $stmt = $this->conn->prepare($query);
         $stmt->execute([':user_id' => $userId]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return (int)($result['total'] ?? 0);
     }
 
     public function updateStatus(int $taskId, int $userId, string $status): bool
@@ -142,6 +201,21 @@ class TaskModel
             ':priority' => $priority,
             ':due_date' => $dueDate,
             ':status' => $status
+        ]);
+    }
+
+    public function deleteTask(int $taskId, int $userId): bool
+    {
+        $query = "
+            DELETE FROM tasks
+            WHERE id = :id AND user_id = :user_id
+        ";
+
+        $stmt = $this->conn->prepare($query);
+
+        return $stmt->execute([
+            ':id' => $taskId,
+            ':user_id' => $userId
         ]);
     }
 }

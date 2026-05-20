@@ -5,6 +5,8 @@ $tasks = $tasks ?? [];
 $pageTitle = $pageTitle ?? 'Tasks';
 $taskView = $taskView ?? 'dashboard';
 $todayDueCount = $todayDueCount ?? 0;
+$currentPage = $currentPage ?? 1;
+$totalPages = $totalPages ?? 1;
 
 function formatTaskDate($value)
 {
@@ -125,6 +127,7 @@ function getStatusClass($status, $dueDate)
                                             <input type="hidden" name="current_status" value="<?php echo htmlspecialchars($task['status'] ?? ''); ?>" />
                                             <input class="status-toggle" type="checkbox" <?php echo $statusClass === 'done' ? 'checked' : ''; ?> />
                                         </form>
+                                        <form method="post" action="/index.php" style="display:inline;"><input type="hidden" name="action" value="delete_task" /><input type="hidden" name="task_id" value="<?php echo (int)$task['id']; ?>" /><button type="submit" class="delete-btn" onclick="return confirm('Yakin ingin menghapus task ini?')">Delete</button></form>
                                     </td>
                                 </tr>
                             <?php } ?>
@@ -132,12 +135,38 @@ function getStatusClass($status, $dueDate)
                     </table>
                 </div>
             </div>
-        </main>
-    </div>
 
-    <?php require __DIR__ . '/../layouts/footer.php'; ?>
+            <!-- Pagination -->
+            <div class="pagination-container">
+                <div style="text-align: center; margin-bottom: 12px; font-size: 14px; color: #64748b;">
+                    Page <?php echo $currentPage; ?> of <?php echo max(1, $totalPages); ?> (<?php echo count($tasks); ?> items)
+                </div>
+                <?php if ($totalPages > 1) { ?>
+                    <nav class="pagination">
+                        <?php if ($currentPage > 1) { ?>
+                            <a href="/index.php?view=<?php echo urlencode($taskView); ?>&page=1" class="pagination-link">First</a>
+                            <a href="/index.php?view=<?php echo urlencode($taskView); ?>&page=<?php echo $currentPage - 1; ?>" class="pagination-link">Previous</a>
+                        <?php } ?>
 
-    <script src="/js/dashboard.js"></script>
+                        <?php for ($i = max(1, $currentPage - 2); $i <= min($totalPages, $currentPage + 2); $i++) { ?>
+                            <?php if ($i === $currentPage) { ?>
+                                <span class="pagination-link active"><?php echo $i; ?></span>
+                            <?php } else { ?>
+                                <a href="/index.php?view=<?php echo urlencode($taskView); ?>&page=<?php echo $i; ?>" class="pagination-link"><?php echo $i; ?></a>
+                            <?php } ?>
+                        <?php } ?>
+
+                        <?php if ($currentPage < $totalPages) { ?>
+                            <a href="/index.php?view=<?php echo urlencode($taskView); ?>&page=<?php echo $currentPage + 1; ?>" class="pagination-link">Next</a>
+                            <a href="/index.php?view=<?php echo urlencode($taskView); ?>&page=<?php echo $totalPages; ?>" class="pagination-link">Last</a>
+                        <?php } ?>
+                    </nav>
+                <?php } ?>
+            </div>
+
+            <?php require __DIR__ . '/../layouts/footer.php'; ?>
+
+            <script src="/js/dashboard.js"></script>
 </body>
 
 </html>

@@ -312,3 +312,65 @@ th {
     display: none;
   }
 }
+
+/* Delete Button Styles */
+.delete-btn {
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: background 0.3s ease;
+  margin-left: 8px;
+}
+
+.delete-btn:hover {
+  background: #dc2626;
+}
+
+/* Pagination Styles */
+.pagination-container {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  background: #ffffff;
+  border: 1px solid #dbe3ee;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+}
+
+.pagination {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.pagination-link {
+  padding: 8px 12px;
+  border: 1px solid #dbe3ee;
+  border-radius: 6px;
+  background: white;
+  color: #2563eb;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 14px;
+}
+
+.pagination-link:hover {
+  background: #2563eb;
+  color: white;
+}
+
+.pagination-link.active {
+  background: #2563eb;
+  color: white;
+  border-color: #2563eb;
+}
