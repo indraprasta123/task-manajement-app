@@ -23,18 +23,21 @@ if ($action === 'register') {
     $password = $_POST['password'] ?? '';
 
     if ($name === '' || $email === '' || $password === '') {
-        echo 'All fields are required';
+        $_SESSION['flash_error'] = 'All fields are required.';
+        header('Location: /views/auth/register.php');
         exit;
     }
 
     $passwordHash = password_hash($password, PASSWORD_DEFAULT);
 
     if ($userModel->createUser($name, $email, $passwordHash)) {
+        $_SESSION['flash_success'] = 'Registration successful. Please log in.';
         header('Location: /views/auth/login.php');
         exit;
     }
 
-    echo 'Register failed';
+    $_SESSION['flash_error'] = 'Registration failed.';
+    header('Location: /views/auth/register.php');
     exit;
 }
 
@@ -45,7 +48,8 @@ if ($action === 'login') {
     $password = $_POST['password'] ?? '';
 
     if ($email === '' || $password === '') {
-        echo 'Email and password are required';
+        $_SESSION['flash_error'] = 'Email and password are required.';
+        header('Location: /views/auth/login.php');
         exit;
     }
 
@@ -58,13 +62,17 @@ if ($action === 'login') {
         $_SESSION['auth_token'] = bin2hex(random_bytes(32));
 
         setcookie('auth_token', $_SESSION['auth_token'], 0, '/');
+        $_SESSION['flash_success'] = 'Login successful.';
 
         header('Location: /index.php');
         exit;
     }
 
-    echo 'Email or password is incorrect';
+    $_SESSION['flash_error'] = 'Invalid email or password.';
+    header('Location: /views/auth/login.php');
     exit;
 }
 
-echo 'Invalid action';
+$_SESSION['flash_error'] = 'Invalid action.';
+header('Location: /views/auth/login.php');
+exit;

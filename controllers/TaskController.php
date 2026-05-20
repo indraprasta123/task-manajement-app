@@ -20,6 +20,8 @@ if (isset($_POST['logout'])) {
     }
 
     session_destroy();
+    session_start();
+    $_SESSION['flash_success'] = 'Logout successful.';
     header('Location: /views/auth/login.php');
     exit;
 }
@@ -43,15 +45,18 @@ if (isset($_POST['action']) && $_POST['action'] === 'create_task') {
     $priority = trim($_POST['priority'] ?? '');
     $dueDate = trim($_POST['due_date'] ?? '');
 
-    if ($title !== '' && $priority !== '') {
+    if ($title !== '' && $description !== '' && $priority !== '' && $dueDate !== '') {
         $taskModel->createTask(
             $userId,
             $title,
             $description,
             $priority,
-            $dueDate !== '' ? $dueDate : null,
+            $dueDate,
             'pending'
         );
+        $_SESSION['flash_success'] = 'Task added successfully.';
+    } else {
+        $_SESSION['flash_error'] = 'Task, description, priority, and due date are required.';
     }
 
     header('Location: /index.php');
@@ -68,6 +73,7 @@ if (isset($_POST['action']) && $_POST['action'] === 'toggle_status') {
 
     if ($taskId > 0) {
         $taskModel->updateStatus($taskId, $userId, $nextStatus);
+        $_SESSION['flash_success'] = 'Task status updated successfully.';
     }
 
     header('Location: /index.php?view=' . urlencode($taskView));
@@ -80,6 +86,7 @@ if (isset($_POST['action']) && $_POST['action'] === 'delete_task') {
 
     if ($taskId > 0) {
         $taskModel->deleteTask($taskId, $userId);
+        $_SESSION['flash_success'] = 'Task deleted successfully.';
     }
 
     header('Location: /index.php?view=' . urlencode($taskView));

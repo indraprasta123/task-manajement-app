@@ -49,7 +49,7 @@ function getStatusClass($status, $dueDate)
 
 ?>
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8" />
@@ -85,7 +85,7 @@ function getStatusClass($status, $dueDate)
 
             <?php if ($todayDueCount > 0) { ?>
                 <div class="alert">
-                    <strong>Reminder:</strong> There is an <?php echo $todayDueCount; ?> assignment due today..
+                    <strong>Reminder:</strong> There are <?php echo $todayDueCount; ?> tasks due today.
                 </div>
             <?php } ?>
 
@@ -130,7 +130,7 @@ function getStatusClass($status, $dueDate)
                                             </button>
                                         </form>
                                         <a href="/index.php?view=edit&id=<?php echo (int)$task['id']; ?>" class="edit-btn">Edit</a>
-                                        <form method="post" action="/index.php" style="display:inline;"><input type="hidden" name="action" value="delete_task" /><input type="hidden" name="task_id" value="<?php echo (int)$task['id']; ?>" /><button type="submit" class="delete-btn" onclick="return confirm('Yakin ingin menghapus task ini?')">Delete</button></form>
+                                        <form method="post" action="/index.php" style="display:inline;"><input type="hidden" name="action" value="delete_task" /><input type="hidden" name="task_id" value="<?php echo (int)$task['id']; ?>" /><button type="submit" class="delete-btn" data-swal-delete="true">Delete</button></form>
                                     </td>
                                 </tr>
                             <?php } ?>

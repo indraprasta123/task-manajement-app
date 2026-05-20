@@ -32,7 +32,10 @@ if (isset($_SESSION['user_id'])) {
                 <div class="form-register-page">
                     <form
                         action="/routes/auth.php"
-                        method="POST">
+                        method="POST"
+                        data-swal-validate="true"
+                        data-swal-context="register"
+                        novalidate>
                         <div class="input-items">
                             <input
                                 type="hidden"
@@ -67,7 +70,7 @@ if (isset($_SESSION['user_id'])) {
                         </div>
                     </form>
                     <div class="register-account">
-                        <p>Do you have an account?</p>
+                        <p>Already have an account?</p>
                         <a href="/views/auth/login.php">Login</a>
                     </div>
                 </div>

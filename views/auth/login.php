@@ -32,7 +32,7 @@ if (isset($_SESSION['user_id'])) {
                     <h1>Login</h1>
                 </div>
                 <div class="form-login-page">
-                    <form action="/routes/auth.php" method="POST">
+                    <form action="/routes/auth.php" method="POST" data-swal-validate="true" data-swal-context="login" novalidate>
                         <div class="input-items">
                             <input type="hidden" name="action" value="login" />
                         </div>
@@ -54,7 +54,7 @@ if (isset($_SESSION['user_id'])) {
                 <div class="login-account">
                     <p>
                         Don’t have an account?
-                        <a href="/views/auth/register.php"> Register </a>
+                        <a href="/views/auth/register.php">Register</a>
                     </p>
                 </div>
             </div>
