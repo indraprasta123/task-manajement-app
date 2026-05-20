@@ -162,6 +162,12 @@ table {
   font-size: 14px;
 }
 
+.table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
 th,
 td {
   text-align: left;
@@ -172,6 +178,21 @@ td {
 th {
   color: #64748b;
   font-weight: 600;
+}
+
+.sortable {
+  cursor: pointer;
+  user-select: none;
+}
+
+.sortable:hover {
+  color: #0f172a;
+}
+
+.sort-indicator {
+  font-size: 12px;
+  margin-right: 6px;
+  color: #94a3b8;
 }
 
 .badge {
@@ -249,37 +270,45 @@ th {
     border-radius: 14px;
   }
 
-  table,
-  thead,
-  tbody,
-  th,
-  td,
-  tr {
-    display: block;
+  .table-wrap {
+    margin: 0 -16px;
+    padding: 0 16px 6px;
+  }
+
+  table {
+    min-width: 820px;
+  }
+
+  /* Force real table layout on mobile (no card stacking). */
+  table {
+    display: table;
+    width: 100%;
+    border-collapse: collapse;
   }
 
   thead {
-    display: none;
+    display: table-header-group;
+  }
+
+  tbody {
+    display: table-row-group;
   }
 
   tr {
-    margin-bottom: 12px;
-    background: #fff;
-    border: 1px solid #dbe3ee;
-    border-radius: 14px;
-    padding: 8px;
+    display: table-row;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    padding: 0;
   }
 
+  th,
   td {
-    border: none;
-    padding: 6px 8px;
+    display: table-cell;
   }
 
   td::before {
-    content: attr(data-label);
-    font-weight: 600;
-    color: #64748b;
-    display: block;
-    margin-bottom: 2px;
+    content: none;
+    display: none;
   }
 }

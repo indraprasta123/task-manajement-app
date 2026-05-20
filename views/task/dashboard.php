@@ -88,44 +88,49 @@ function getStatusClass($status, $dueDate)
             <?php } ?>
 
             <div class="card">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Task</th>
-                            <th>Due Date</th>
-                            <th>Priority</th>
-                            <th>Status</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php if (count($tasks) === 0) { ?>
+                <div class="table-wrap">
+                    <table id="tasksTable">
+                        <thead>
                             <tr>
-                                <td colspan="5">No tasks yet.</td>
+                                <th class="sortable" data-sort="string"><span class="sort-indicator" aria-hidden="true">↕</span> Task</th>
+                                <th class="sortable" data-sort="string"><span class="sort-indicator" aria-hidden="true">↕</span> Description</th>
+                                <th class="sortable" data-sort="date"><span class="sort-indicator" aria-hidden="true">↕</span> Due Date</th>
+                                <th class="sortable" data-sort="priority"><span class="sort-indicator" aria-hidden="true">↕</span> Priority</th>
+                                <th class="sortable" data-sort="status"><span class="sort-indicator" aria-hidden="true">↕</span> Status</th>
+                                <th>Action</th>
                             </tr>
-                        <?php } ?>
-                        <?php foreach ($tasks as $task) { ?>
-                            <?php
-                            $priorityClass = getPriorityClass($task['priority'] ?? '');
-                            $statusClass = getStatusClass($task['status'] ?? '', $task['due_date'] ?? null);
-                            ?>
-                            <tr>
-                                <td data-label="Task"><?php echo htmlspecialchars($task['title'] ?? ''); ?></td>
-                                <td data-label="Due Date"><?php echo formatTaskDate($task['due_date'] ?? null); ?></td>
-                                <td data-label="Priority"><span class="badge <?php echo $priorityClass; ?>"><?php echo htmlspecialchars($task['priority'] ?? ''); ?></span></td>
-                                <td data-label="Status"><span class="status <?php echo $statusClass; ?>"><?php echo htmlspecialchars($task['status'] ?? ''); ?></span></td>
-                                <td data-label="Action">
-                                    <form class="status-form" method="post" action="/index.php">
-                                        <input type="hidden" name="action" value="toggle_status" />
-                                        <input type="hidden" name="task_id" value="<?php echo (int)$task['id']; ?>" />
-                                        <input type="hidden" name="current_status" value="<?php echo htmlspecialchars($task['status'] ?? ''); ?>" />
-                                        <input class="status-toggle" type="checkbox" <?php echo $statusClass === 'done' ? 'checked' : ''; ?> />
-                                    </form>
-                                </td>
-                            </tr>
-                        <?php } ?>
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            <?php if (count($tasks) === 0) { ?>
+                                <tr>
+                                    <td colspan="6">No tasks yet.</td>
+                                </tr>
+                            <?php } ?>
+                            <?php foreach ($tasks as $task) { ?>
+                                <?php
+                                $priorityClass = getPriorityClass($task['priority'] ?? '');
+                                $statusClass = getStatusClass($task['status'] ?? '', $task['due_date'] ?? null);
+                                $description = trim((string)($task['description'] ?? ''));
+                                ?>
+                                <tr>
+                                    <td data-label="Task"><?php echo htmlspecialchars($task['title'] ?? ''); ?></td>
+                                    <td data-label="Description"><?php echo htmlspecialchars($description !== '' ? $description : '-'); ?></td>
+                                    <td data-label="Due Date"><?php echo formatTaskDate($task['due_date'] ?? null); ?></td>
+                                    <td data-label="Priority"><span class="badge <?php echo $priorityClass; ?>"><?php echo htmlspecialchars($task['priority'] ?? ''); ?></span></td>
+                                    <td data-label="Status"><span class="status <?php echo $statusClass; ?>"><?php echo htmlspecialchars($task['status'] ?? ''); ?></span></td>
+                                    <td data-label="Action">
+                                        <form class="status-form" method="post" action="/index.php">
+                                            <input type="hidden" name="action" value="toggle_status" />
+                                            <input type="hidden" name="task_id" value="<?php echo (int)$task['id']; ?>" />
+                                            <input type="hidden" name="current_status" value="<?php echo htmlspecialchars($task['status'] ?? ''); ?>" />
+                                            <input class="status-toggle" type="checkbox" <?php echo $statusClass === 'done' ? 'checked' : ''; ?> />
+                                        </form>
+                                    </td>
+                                </tr>
+                            <?php } ?>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </main>
     </div>
