@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
         header('Location: /index.php');
         exit;
     } else {
-        $_SESSION['flash_error'] = 'Task, description, priority, dan due date wajib diisi.';
+        $_SESSION['flash_error'] = 'Task, description, priority, and due date are required.';
     }
 }
 
