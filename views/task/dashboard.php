@@ -120,12 +120,14 @@ function getStatusClass($status, $dueDate)
                                     <td data-label="Due Date"><?php echo formatTaskDate($task['due_date'] ?? null); ?></td>
                                     <td data-label="Priority"><span class="badge <?php echo $priorityClass; ?>"><?php echo htmlspecialchars($task['priority'] ?? ''); ?></span></td>
                                     <td data-label="Status"><span class="status <?php echo $statusClass; ?>"><?php echo htmlspecialchars($task['status'] ?? ''); ?></span></td>
-                                    <td data-label="Action">
-                                        <form class="status-form" method="post" action="/index.php">
+                                    <td class="flex-btn" data-label="Action">
+                                        <form class="status-form" method="post" action="/index.php" style="display:inline;">
                                             <input type="hidden" name="action" value="toggle_status" />
                                             <input type="hidden" name="task_id" value="<?php echo (int)$task['id']; ?>" />
                                             <input type="hidden" name="current_status" value="<?php echo htmlspecialchars($task['status'] ?? ''); ?>" />
-                                            <input class="status-toggle" type="checkbox" <?php echo $statusClass === 'done' ? 'checked' : ''; ?> />
+                                            <button type="submit" class="toggle-btn <?php echo $statusClass === 'done' ? 'done' : 'pending'; ?>">
+                                                <?php echo $statusClass === 'done' ? 'Pending' : 'Completed'; ?>
+                                            </button>
                                         </form>
                                         <form method="post" action="/index.php" style="display:inline;"><input type="hidden" name="action" value="delete_task" /><input type="hidden" name="task_id" value="<?php echo (int)$task['id']; ?>" /><button type="submit" class="delete-btn" onclick="return confirm('Yakin ingin menghapus task ini?')">Delete</button></form>
                                     </td>
@@ -163,7 +165,6 @@ function getStatusClass($status, $dueDate)
                     </nav>
                 <?php } ?>
             </div>
-
             <?php require __DIR__ . '/../layouts/footer.php'; ?>
 
             <script src="/js/dashboard.js"></script>
