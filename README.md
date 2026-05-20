@@ -14,7 +14,7 @@ Simple PHP task management application with authentication, task CRUD, status up
 ## Technology
 
 - PHP version 8.4.16
-- MySQL
+- PostgreSQL
 - HTML
 - CSS
 - JavaScript
@@ -24,7 +24,7 @@ Simple PHP task management application with authentication, task CRUD, status up
 
 1. Clone the repository.
 2. Configure your database connection in `config/database.php`.
-3. Import the database schema into MySQL.
+3. Import the database schema into PostgreSQL.
 4. Run the project through your local PHP server.
 
 ## Project Structure
