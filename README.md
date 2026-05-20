@@ -6,7 +6,7 @@ Simple PHP task management application with authentication, task CRUD, status up
 
 - Register, login, and logout
 - Add, edit, delete, and complete tasks
-- Sort tasks by task, description, due date, priority, and status
+- Sort tasks by due date, description, and priority
 - Today reminder alert
 - SweetAlert validation and confirmation dialogs
 - Pagination with 6 items per page
@@ -41,7 +41,7 @@ Simple PHP task management application with authentication, task CRUD, status up
 
 - User login and logout
 - Task creation, editing, completion, and deletion
-- Sorting by task, description, due date, priority, and status
+- Sorting by due date, description, and priority
 - Today due-date reminder
 - Adaptive UI for desktop, tablet, and mobile
 - SweetAlert validation and confirmation dialogs
@@ -89,7 +89,7 @@ The dashboard supports task filtering:
 
 ![Figure 8. Completed Tasks filter](assets/filter-completedTasks.png)
 
-The table also supports sorting.
+The table supports sorting by due date, description, and priority.
 
 ![Figure 9. Sort in table](assets/fitur-short-in-th-table.png)
 
@@ -136,5 +136,5 @@ When the user clicks logout, the session is cleared and the app returns to the l
 ## Notes
 
 - All UI text and notifications are in English.
-- The screenshots above are already available in the `assets` folder and are arranged in flow order from register to logout.
+- The screenshots above are available in the `assets` folder and arranged in flow order from register to logout.
 - This README is organized to match the application flow from registration through logout for easier review.
