@@ -129,6 +129,7 @@ function getStatusClass($status, $dueDate)
                                                 <?php echo $statusClass === 'done' ? 'Pending' : 'Completed'; ?>
                                             </button>
                                         </form>
+                                        <a href="/index.php?view=edit&id=<?php echo (int)$task['id']; ?>" class="edit-btn">Edit</a>
                                         <form method="post" action="/index.php" style="display:inline;"><input type="hidden" name="action" value="delete_task" /><input type="hidden" name="task_id" value="<?php echo (int)$task['id']; ?>" /><button type="submit" class="delete-btn" onclick="return confirm('Yakin ingin menghapus task ini?')">Delete</button></form>
                                     </td>
                                 </tr>

@@ -126,6 +126,7 @@ class TaskModel
         return (int)($result['total'] ?? 0);
     }
 
+    //get completed tasks
     public function getCompletedTasks(int $userId, int $limit = 10, int $offset = 0): array
     {
         $query = "
@@ -216,6 +217,48 @@ class TaskModel
         return $stmt->execute([
             ':id' => $taskId,
             ':user_id' => $userId
+        ]);
+    }
+
+    //edit task
+    public function getTaskById(int $taskId, int $userId): ?array
+    {
+        $query = "
+            SELECT id, title, description, priority, due_date, status, created_at
+            FROM tasks
+            WHERE id = :id AND user_id = :user_id
+        ";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute([':id' => $taskId, ':user_id' => $userId]);
+
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result ?: null;
+    }
+
+    public function updateTask(
+        int $taskId,
+        int $userId,
+        string $title,
+        string $description,
+        string $priority,
+        ?string $dueDate
+    ): bool {
+        $query = "
+            UPDATE tasks
+            SET title = :title, description = :description, priority = :priority, due_date = :due_date
+            WHERE id = :id AND user_id = :user_id
+        ";
+
+        $stmt = $this->conn->prepare($query);
+
+        return $stmt->execute([
+            ':id' => $taskId,
+            ':user_id' => $userId,
+            ':title' => $title,
+            ':description' => $description,
+            ':priority' => $priority,
+            ':due_date' => $dueDate
         ]);
     }
 }
