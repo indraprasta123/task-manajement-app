@@ -39,6 +39,7 @@
 .sidebar-nav {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: 10px;
   margin-top: 4px;
 }

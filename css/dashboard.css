@@ -1,7 +1,7 @@
 .dashboard-shell {
   display: flex;
   gap: 20px;
-  max-width: 1280px;
+  width: 100%;
   margin: 0 auto;
   padding: 20px;
 }

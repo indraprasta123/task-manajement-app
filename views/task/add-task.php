@@ -16,6 +16,7 @@ if (!isset($_SESSION['user_id'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/css/global.css" />
     <link rel="stylesheet" href="/css/add-task.css" />
+    <link rel="stylesheet" href="/css/footer.css" />
     <title>Add Task</title>
 </head>
 
@@ -69,6 +70,8 @@ if (!isset($_SESSION['user_id'])) {
             </div>
         </div>
     </div>
+
+    <?php require __DIR__ . '/../layouts/footer.php'; ?>
 </body>
 
 </html>

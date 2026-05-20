@@ -54,6 +54,7 @@ function getStatusClass($status, $dueDate)
     <link rel="stylesheet" href="/css/global.css" />
     <link rel="stylesheet" href="/css/dashboard.css" />
     <link rel="stylesheet" href="/css/sidebar.css" />
+    <link rel="stylesheet" href="/css/footer.css" />
     <title>Dashboard</title>
 </head>
 
@@ -121,6 +122,8 @@ function getStatusClass($status, $dueDate)
             </div>
         </main>
     </div>
+
+    <?php require __DIR__ . '/../layouts/footer.php'; ?>
 
     <script src="/js/dashboard.js"></script>
 </body>

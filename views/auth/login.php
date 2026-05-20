@@ -19,6 +19,7 @@ if (isset($_SESSION['user_id'])) {
 
     <link rel="stylesheet" href="../../css/global.css" />
     <link rel="stylesheet" href="../../css/login.css" />
+    <link rel="stylesheet" href="../../css/footer.css" />
 
     <title>Login</title>
 </head>
@@ -59,6 +60,8 @@ if (isset($_SESSION['user_id'])) {
             </div>
         </div>
     </div>
+
+    <?php require __DIR__ . '/../layouts/footer.php'; ?>
 </body>
 
 </html>

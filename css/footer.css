@@ -1,0 +1,23 @@
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.site-footer {
+  width: 100%;
+  margin-top: auto;
+  background-color: #ffffff;
+  border-top: 1px solid #dbe3ee;
+  padding: 16px 20px;
+  text-align: center;
+  color: #64748b;
+  font-size: 14px;
+}
+
+@media screen and (max-width: 767px) {
+  .site-footer {
+    padding: 14px 16px;
+    font-size: 13px;
+  }
+}
